@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PropertyValuePredictor</string>
+    <string name="title">house price predictor app</string>
+</resources>
