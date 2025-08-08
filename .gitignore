@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+**/house_price_model.onnx
