@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">PropertyValuePredictor</string>
-    <string name="title">house price predictor app</string>
+    <string name="title">Property Value Predictor</string>
+    <string name="AreaTitle">Area (m²)</string>
+    <string name="hint_area">eg., 2000</string>
+    <string name="NumroomTitle">Number of rooms</string>
+    <string name="hint_room">eg., 3</string>
+    <string name="Housetype">Please select house type</string>
+    <string name="dropdown">house type</string>
+    <string name="calculate">Predict price</string>
 </resources>

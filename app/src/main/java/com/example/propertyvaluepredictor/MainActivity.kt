@@ -1,6 +1,8 @@
 package com.example.propertyvaluepredictor
 
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,5 +18,11 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val houseTypes = arrayOf("Condo", "Townhouse", "Detached")
+        val adapter = ArrayAdapter(this, R.layout.list_item, houseTypes)
+        val houseTypeDropdown: AutoCompleteTextView = findViewById(R.id.house_type_auto_complete_text_view)
+
+        houseTypeDropdown.setAdapter(adapter)
     }
 }
