@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GoldDropdownMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/Lightgold</item>
+        <item name="hintTextColor">@color/Darkgold</item>
+        <item name="endIconTint">@color/Darkgold</item>
+        <item name="android:popupBackground">@color/white</item>
+        <item name="android:popupElevation">8dp</item>
+    </style>
+</resources>
