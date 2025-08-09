@@ -19,6 +19,10 @@ import ai.onnxruntime.OrtSession
 import java.nio.FloatBuffer
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var houseTypeDropdown: AutoCompleteTextView
+    private val houseTypes = arrayOf("Condo", "Townhouse", "Detached")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,10 +36,9 @@ class MainActivity : AppCompatActivity() {
         val inputArea = findViewById<TextInputEditText>(R.id.AreaInput)
         val inputRooms = findViewById<TextInputEditText>(R.id.RoomInput)
 
-        val houseTypes = arrayOf("Condo", "Townhouse", "Detached")
+        // Setup dropdown
         val adapter = ArrayAdapter(this, R.layout.list_item, houseTypes)
-        val houseTypeDropdown: AutoCompleteTextView = findViewById(R.id.house_type_auto_complete_text_view)
-
+        houseTypeDropdown = findViewById(R.id.house_type_auto_complete_text_view)
         houseTypeDropdown.setAdapter(adapter)
 
         val predictBtn = findViewById<Button>(R.id.calculate_button)
@@ -53,22 +56,46 @@ class MainActivity : AppCompatActivity() {
                 else -> 0
             }
 
-            if ( areaData != null && roomData != null){
-                val ortEnvironment  = OrtEnvironment.getEnvironment()
-                val ortSession = createORTSession( ortEnvironment )
-                val output =  ortSession?.let { it1 -> executeModel(areaData, roomData, houseTypeData, it1, ortEnvironment) }
+            if (areaData != null && roomData != null) {
+                val ortEnvironment = OrtEnvironment.getEnvironment()
+                val ortSession = createORTSession(ortEnvironment)
+                val output = ortSession?.let {
+                    executeModel(areaData, roomData, houseTypeData, it, ortEnvironment)
+                }
                 resultText.text = getString(R.string.predicted_price_placeholder, "$output $")
-            }else{
+            } else {
                 Toast.makeText(this, "Please input the area and room data", Toast.LENGTH_LONG).show()
             }
-
         }
-
     }
 
-    private fun executeModel(areaData: Float, roomData: Float, houseTypeData: Int, ortSession: OrtSession, ortEnvironment: OrtEnvironment?): Float {
+    // Save dropdown text before rotation
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("selectedHouseType", houseTypeDropdown.text.toString())
+    }
+
+    // Restore dropdown text after rotation
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        val adapter = ArrayAdapter(this, R.layout.list_item, houseTypes)
+        houseTypeDropdown.setAdapter(adapter)
+
+        val savedValue = savedInstanceState.getString("selectedHouseType", "")
+        houseTypeDropdown.setText(savedValue, false) // false avoids triggering filtering
+    }
+
+    private fun executeModel(
+        areaData: Float,
+        roomData: Float,
+        houseTypeData: Int,
+        ortSession: OrtSession,
+        ortEnvironment: OrtEnvironment?
+    ): Float {
         val inputName = ortSession.inputNames?.iterator()?.next()
-        val floatBufferInput = FloatBuffer.wrap(floatArrayOf(areaData, roomData, houseTypeData.toFloat()))
+        val floatBufferInput =
+            FloatBuffer.wrap(floatArrayOf(areaData, roomData, houseTypeData.toFloat()))
 
         OnnxTensor.createTensor(ortEnvironment, floatBufferInput, longArrayOf(1, 3)).use { tensorInput ->
             ortSession.run(mapOf(inputName to tensorInput)).use { result ->
@@ -88,7 +115,11 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             System.err.println("DEBUG: Error loading ONNX model or creating session.")
             e.printStackTrace()
-            Toast.makeText(this, "Error loading model or creating session: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this,
+                "Error loading model or creating session: ${e.localizedMessage}",
+                Toast.LENGTH_LONG
+            ).show()
             null
         }
     }
