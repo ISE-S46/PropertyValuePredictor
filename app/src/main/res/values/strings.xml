@@ -6,6 +6,7 @@
     <string name="NumroomTitle">Number of rooms</string>
     <string name="hint_room">eg., 3</string>
     <string name="Housetype">Please select house type</string>
-    <string name="dropdown">house type</string>
-    <string name="calculate">Predict price</string>
+    <string name="dropdown">Property Type</string>
+    <string name="calculate">Predict Price</string>
+    <string name="predicted_price_placeholder">Predicted price is %1$s</string>
 </resources>
