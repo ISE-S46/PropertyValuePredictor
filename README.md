@@ -41,11 +41,11 @@ Based on [Aj. Ekarat project](https://www.youtube.com/watch?v=Qh5076U4-7s&list=P
     ```
     1.3. **Wait for a few seconds for gradle to finished building.**
 
-2. **Configure ONNX ML model**: (change py to python if it doesn't work)
+2. **Configure ONNX ML model**: (change python to py if it doesn't work)
 
     2.1 Create Python virtual environment, run these command in Android Studio Terminal.
     ```bash
-    py -m venv Model
+    python -m venv Model
     Model\Scripts\activate
     ```
 
@@ -53,7 +53,7 @@ Based on [Aj. Ekarat project](https://www.youtube.com/watch?v=Qh5076U4-7s&list=P
     ```bash
     cd ./Model_training
     pip install -r requirement.txt
-    py TrainModel.py
+    python TrainModel.py
     ```
 
     2.3 Create /raw folder at /app/src/main/res
