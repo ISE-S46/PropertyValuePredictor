@@ -33,7 +33,7 @@ Based on [Aj. Ekarat project](https://www.youtube.com/watch?v=Qh5076U4-7s&list=P
 
     Or
 
-    **At project page select new then Project From Version Control...**
+    **At project page select file -> new -> Project From Version Control...**
     
     1.2. **Select git version control and paste the repository url, then click Clone**
     ```bash
